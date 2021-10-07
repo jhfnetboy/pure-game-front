@@ -29,7 +29,7 @@ function useWalker({ web3 }: Props) {
     })
   }, [web3])
 
-  const fetchWalker = async (walkerID: number) => {
+  const fetchWalkerName = async (walkerID: number) => {
     if (typeof web3 === "undefined") return
 
     const contract = new ethers.Contract(address, Walker.abi, web3)
@@ -54,7 +54,29 @@ function useWalker({ web3 }: Props) {
     await transaction.wait()
   }
 
-  return [fetchWalker, setWalkerName] as const
+  const mintWalker = async (mint_address: string, walkerName: string) => {
+    if (typeof web3 === "undefined") return
+    if (!setWalkerName) throw new Error("Record Empty")
+
+    const signer = web3.getSigner()
+    const contract = new ethers.Contract(address, Walker.abi, signer)
+    const transaction = await contract.mint(mint_address, walkerName)
+    await transaction.wait()
+  }
+
+  const getNftCount = async (wallet_address: string) => {
+    if (typeof web3 === "undefined") return
+    if (!setWalkerName) throw new Error("Record Empty")
+
+    const signer = web3.getSigner()
+    const contract = new ethers.Contract(address, Walker.abi, signer)
+    const count = await contract.balanceOf(wallet_address)
+    console.log(count)
+    // await count.wait()
+    return parseInt(count,16)
+  }  
+
+  return [fetchWalkerName, setWalkerName, mintWalker, getNftCount] as const
 }
 
 export default useWalker

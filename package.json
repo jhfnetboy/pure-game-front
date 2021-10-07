@@ -2,7 +2,7 @@
   "name": "front",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://jhfnetboy.github.io/pure-Game",
+  "homepage": "https://jhfnetboy.github.io/pure-game-front",
   "dependencies": {
     "@ethersproject/providers": "^5.4.5",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",

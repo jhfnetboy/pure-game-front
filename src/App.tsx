@@ -8,18 +8,20 @@ import React, { useEffect, useRef, useState } from 'react';
 // import useGreeter from './hooks/useGreeter';
 import useWalker from './hooks/useWalker';
 import useNetwork from './hooks/useNetwork';
+import { time } from 'console';
 
 // function App(): JSX.Element {
 function App(){  
       // wallet connect
       const [network, setNetwork] = useState<providers.Network>()
       const [account, setAccount] = useState<string>()
+      const [nftCount, setNftCount] = useState<number>()
       const [walker, setWalker] = useState<string>()
       const [appMsg, setAppMsg] = useState<string>()
       const inputElm = useRef<HTMLInputElement>(document.createElement("input"))
-      const walkerID = 1
+      const walkerID = 2
       const [{ web3 }, handleNetwork] = useNetwork()
-      const [tokenWalkerName, _setTokenName] = useWalker({ web3 })
+      const [fetchWalkerName, setWalkerName, mintWalker, getNftCount] = useWalker({ web3 })
 
       useEffect(() => {
         if (typeof web3 === "undefined") {
@@ -40,6 +42,7 @@ function App(){
         setNetwork(undefined)
         setAccount(undefined)
         setWalker(undefined)
+        setNftCount(undefined)
       }
 
       const showAppMsg = (err: any) => {
@@ -53,12 +56,18 @@ function App(){
       }
 
       const handleFetch = async () => {
-        tokenWalkerName(walkerID).then(setWalker).catch(showAppMsg)
+        fetchWalkerName(walkerID).then(setWalker).catch(showAppMsg)
       }
+
+      const handleFetchCount = async () => {
+        if(account){
+          getNftCount(account).then(setNftCount).catch(showAppMsg)
+        }
+      }      
 
       const handleSet = () => {
         console.log("set here")
-        _setTokenName(walkerID, inputElm.current.value)
+        setWalkerName(walkerID, inputElm.current.value)
           .then(() => {
             inputElm.current.value = ""
             handleFetch()
@@ -67,12 +76,29 @@ function App(){
       }
       //end wallet func
 
-    //begin mint func
-    async function mintWalker() {
-      console.log(walkerID)
-    } 
-    //end mint func
-
+      const handleMint = () => {
+        console.log("mint here")
+        if(nftCount&&nftCount>0){
+          console.log("Boy, you have got the ticket to the hell,GO!")
+          const bigtext = document.getElementById("bigtext")
+          bigtext ? bigtext.innerText= "Boy, you have got the ticket to the hell,GO!" :console.log("error")
+          // time.wait()
+          return null
+        }
+        if(account && inputElm.current.value){
+          console.log(inputElm.current.value)
+          mintWalker(account, inputElm.current.value)
+          .then(() => {
+            inputElm.current.value = ""
+            handleFetch()
+          })
+          .catch(showAppMsg)
+        }
+        else{
+          console.log("mint to address or walkerName is empty!")
+        }
+      }
+    // mintwalker
     
     //begin scroll function
     let i = 0
@@ -80,7 +106,7 @@ function App(){
     function scroll(){
       const scroll1 = document.getElementById('scroll')
       if (i<4 && scroll1){
-        console.log(i)
+        // console.log(i)
           scroll1.innerText = txtList[i] ? txtList[i] : ''
         i = i +1
       } else{
@@ -101,40 +127,47 @@ function App(){
     // return result
     return (
             <div className="flex flex-col h-screen items-start overflow-x-hidden bg-custom-background">
+              <div>
                 <header className="App-header">
                 <div id="scroll" onClick={() => {scroll()}}>  What the hell? </div>
-                 
+
                 <div id="create" className="ml-20 " style={{display: 'none'}}>
                     <div className="text-white bg-custom-black py-1 px-2 text-2xl" >
-                              <h3>Create your player, rescue your dog!</h3><br/>  
+                              <h3 id="bigtext">Create your player, rescue your dog!</h3><br/>  
                               <FontAwesomeIcon
                                               icon={faDog}
-                                              className="mt-80 ml-200 text-center"
+                                              className="mt-80 ml-200 text-center cursor-pointer"
                                               color="white"
                                               size="4x"
-                                              onClick={() => {mintWalker()}}
+                                              onClick={() => {handleMint()}}
+                                              // onMouseOver={()=>this.cursor=hand}
                                           />
-                                          <br/><br/>          
-                 
+                    </div>
                 </div>
+                </header>
                 </div>
+                --------------------------------
                 <div className="text-white bg-custom-black py-1 px-2 text-xl">
                   <button onClick={handleConnect}>{web3 ? "Disconnect" : "Connect"}</button><br />
                   <button onClick={handleFetch}>Fetch My Player info</button><br />
                   <button onClick={handleSet}>Set New Name</button>
                   <input ref={inputElm} placeholder="reSet My Player Name" /><br />
+                  <button onClick={handleFetchCount}>get My NFT count</button><br />
                   <hr />
                   <div>
                   Network: {network?.chainId} {network?.name}<br />
                   Account: {account}<br />
                   WalkerName: {walker}<br />
                   StatusMessage: {appMsg}<br />
+                  Has NFTs: {nftCount}<br />
                   </div>
                 </div>
                 <i>Test using Matic TestNet, 80001</i>
-                </header> 
+                 
             </div>
     )//end return
 }//end app func
 
 export default App
+
+// http://localhost:8080/pure-game-front/
