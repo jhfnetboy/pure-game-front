@@ -228,6 +228,23 @@ function App(){
         <br/>
       </div>
       </header>
+      --------------------------------
+            <div className="text-white bg-custom-black py-1 px-2 text-xl">
+              <button onClick={handleConnect}>{web3 ? "Disconnect" : "Connect"}</button><br />
+              <button onClick={handleFetch}>Fetch My Player info</button><br />
+              <button onClick={handleSet}>Set New Name</button>
+              <input ref={inputElm} placeholder="reSet My Player Name" /><br />
+              <button onClick={handleFetchCount}>get My NFT count</button><br />
+              <hr />
+              <div>
+              Network: {network?.chainId} {network?.name}<br />
+              Account: {account}<br />
+              WalkerName: {walker}<br />
+              StatusMessage: {appMsg}<br />
+              Has NFTs: {nftCount}<br />
+              </div>
+            </div>
+            <i>Test using Matic TestNet, 80001</i>      
     </div>
       )
     } else{
