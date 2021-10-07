@@ -1,0 +1,41 @@
+
+[{
+    "cat": "choice",
+    "id": 1,
+    "choices": {
+        "1": "Here is a cat, The cat do nothing, just scrolled in the sunny. You can try to touch him",
+        "2": "There is no cat, just a pile of shit and flies. en...the smell is terrible.",
+        "3": "Wow, lucky dog, do you want to exchange something with me ? The cat says."
+    },
+    "answers":{
+        "1": "Wheezing with the cat, it seems very happy, his tail just swing in the air.",
+        "2": "Oh..no, you stepped on the shit.",
+        "3": {
+            "must": {
+                "wood": 1
+            },
+            "get": {
+                "dragon-bone": 2
+            },
+            "message": "See you inventory. maybe nothing or some dragon-bones."
+        }
+    },
+    "prefix": "The egyptian says cat live with the God."
+
+},
+{    
+    "cat": "choice",
+    "id": 1,
+    "choices": {
+        "1": "12",
+        "2": "24",
+        "3": "random()"
+    },
+    "answers":{
+        "1": "17",
+        "2": "21",
+        "3": "random(11,24)"
+    }    
+
+}
+]

@@ -1,20 +1,23 @@
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDog } from '@fortawesome/free-solid-svg-icons'
-
+import { faRandom } from '@fortawesome/free-solid-svg-icons'
 import { providers } from 'ethers';
 // import { Provider } from '@ethersproject/providers'
 import React, { useEffect, useRef, useState } from 'react';
 // import useGreeter from './hooks/useGreeter';
 import useWalker from './hooks/useWalker';
 import useNetwork from './hooks/useNetwork';
-import { time } from 'console';
+const event = require('./local-storage/event.json')
+// import Routes from './routes'
+// import { Router } from 'react-router';
 
 // function App(): JSX.Element {
 function App(){  
       // wallet connect
       const [network, setNetwork] = useState<providers.Network>()
       const [account, setAccount] = useState<string>()
+      const [adv, setAdv] = useState<string>()
       const [nftCount, setNftCount] = useState<number>()
       const [walker, setWalker] = useState<string>()
       const [appMsg, setAppMsg] = useState<string>()
@@ -82,7 +85,7 @@ function App(){
           console.log("Boy, you have got the ticket to the hell,GO!")
           const bigtext = document.getElementById("bigtext")
           bigtext ? bigtext.innerText= "Boy, you have got the ticket to the hell,GO!" :console.log("error")
-          // time.wait()
+          setAdv('now')
           return null
         }
         if(account && inputElm.current.value){
@@ -124,50 +127,158 @@ function App(){
     }
     // end scroll func
 
-    // return result
-    return (
-            <div className="flex flex-col h-screen items-start overflow-x-hidden bg-custom-background">
-              <div>
-                <header className="App-header">
-                <div id="scroll" onClick={() => {scroll()}}>  What the hell? </div>
 
-                <div id="create" className="ml-20 " style={{display: 'none'}}>
-                    <div className="text-white bg-custom-black py-1 px-2 text-2xl" >
-                              <h3 id="bigtext">Create your player, rescue your dog!</h3><br/>  
-                              <FontAwesomeIcon
-                                              icon={faDog}
-                                              className="mt-80 ml-200 text-center cursor-pointer"
-                                              color="white"
-                                              size="4x"
-                                              onClick={() => {handleMint()}}
-                                              // onMouseOver={()=>this.cursor=hand}
-                                          />
-                    </div>
+    //adventure function list
+    function clearQlist(count: number){
+      if(count!==1){//check is A
+          const txt1 = document.getElementById("choice1")
+          const txt2 = document.getElementById("choice2")
+          const txt3 = document.getElementById("choice3")
+          if(txt1){
+              txt1.innerText='' 
+          }    
+          if(txt2){
+              txt2.innerText='' 
+          }    
+          if(txt3){
+              txt3.innerText='' 
+          }     
+          // console.log('clear Q1,2,3: '+count.toString()) 
+      }              
+
+  }
+  function selectChoice(num: number){
+      const choiceTxt = document.getElementById("choice"+num.toString())
+      const txt1 = document.getElementById("choice1")
+      const txt2 = document.getElementById("choice2")
+      const txt3 = document.getElementById("choice3")
+      // console.log('click : '+num.toString())
+      let count =3
+      txt1 ? (txt1.innerText==='' ? count= count-1:count = count+0) :count=count+0   
+      txt2 ? (txt2.innerText==='' ? count= count-1:count = count+0) :count=count+0   
+      txt3 ? (txt3.innerText==='' ? count= count-1:count = count+0) :count=count+0   
+      // console.log('txt count: '+count.toString())      
+      clearQlist(count)    
+      let result = null
+      if(count===3){
+          switch (num) {
+              case 1:
+                  clearQlist(2)
+                  choiceTxt ? result = (choiceTxt.innerText = 'A1: '+event.data[Math.floor((Math.random()*10))].answers['f']) : result = null
+                  // console.log('txt count: '+count.toString())   
+                  return result
+              case 2:
+                  clearQlist(2)
+                  choiceTxt ? result = (choiceTxt.innerText = 'A2: '+event.data[Math.floor((Math.random()*10))].answers['s']) : result = null
+                  return result
+              case 3:
+                  clearQlist(2)
+                  choiceTxt ? result = (choiceTxt.innerText = 'A3: '+event.data[Math.floor((Math.random()*10))].answers['t'] ) : result = null   
+                  return result
+              default :
+                  return result                                      
+          }            
+      }   
+      return false     
+  }
+  //Q1,2,3 refresh, must be false
+  function clickNext(){
+      const choiceTxt1 = document.getElementById("choice1")
+      const choiceTxt2 = document.getElementById("choice2")
+      const choiceTxt3 = document.getElementById("choice3")
+      // let serror = false
+      // console.log('clickNetxt')
+          choiceTxt1 ?   choiceTxt1.innerText = 'Q1: '+event.data[Math.floor((Math.random()*10))].choices['f'] : console.log('Q1 be clicked')
+          choiceTxt2 ?   choiceTxt2.innerText = 'Q2: '+event.data[Math.floor((Math.random()*10))].choices['t'] : console.log('Q2 be clicked')
+          choiceTxt3 ?   choiceTxt3.innerText = 'Q3: '+event.data[Math.floor((Math.random()*10))].choices['t'] : console.log('Q3 be clicked')
+      
+  } 
+    //end adventure func
+
+
+    // return result
+    if(adv){
+      return (
+        <div className="flex flex-col h-screen items-start overflow-x-hidden bg-custom-background">
+        <header className="App-header">
+        <div className="text-white ml-40 mr-40 text-xl font-bold border-8 border-white" id="stage">
+        It is a test of stage, click your choice!<br/>
+        cat: {event.cat}||| id: {event.id}
+        <FontAwesomeIcon
+                    icon={faRandom}
+                    className="mt-1 ml-40"
+                    color="red"
+                    size="1x"
+                    title="Begin! Rescue you dog!"
+                    // forwardedRef=""
+                    onClick={() => {clickNext()}}
+                /> 
+        <hr/>
+        <div >
+            <div className="text-blue mt-1 ml-0" id="choice1"
+            onClick={() => {selectChoice(1)}}
+            >1.{event.data[0].choices['f']}</div>
+            <div className="text-red mt-1 ml-0" id="choice2"
+            onClick={() => {selectChoice(2)}}
+            >2.{event.data[0].choices['s']}</div>
+            <div className="text-white mt-1 ml-0" id="choice3"
+            onClick={() => {selectChoice(3)}}
+            >3.{event.data[0].choices['t']}</div>
+        </div>
+        <br/>
+      </div>
+      </header>
+    </div>
+      )
+    } else{
+      return (
+        <div className="flex flex-col h-screen items-start overflow-x-hidden bg-custom-background">
+          <div>
+            <header className="App-header">
+            <div id="scroll" onClick={() => {scroll()}}>  What the hell? </div>
+
+            <div id="create" className="ml-20 " style={{display: 'none'}}>
+                <div className="text-white bg-custom-black py-1 px-2 text-2xl" >
+                          <h3 id="bigtext">Create your player, rescue your dog!</h3><br/>  
+                          <FontAwesomeIcon
+                                          icon={faDog}
+                                          className="mt-80 ml-200 text-center cursor-pointer"
+                                          color="white"
+                                          size="4x"
+                                          onClick={() => {handleMint()}}
+                                          // onMouseOver={()=>this.cursor=hand}
+                                      />
+                                      {/* <Router><Routes /></Router> */}
+                                      
                 </div>
-                </header>
-                </div>
-                --------------------------------
-                <div className="text-white bg-custom-black py-1 px-2 text-xl">
-                  <button onClick={handleConnect}>{web3 ? "Disconnect" : "Connect"}</button><br />
-                  <button onClick={handleFetch}>Fetch My Player info</button><br />
-                  <button onClick={handleSet}>Set New Name</button>
-                  <input ref={inputElm} placeholder="reSet My Player Name" /><br />
-                  <button onClick={handleFetchCount}>get My NFT count</button><br />
-                  <hr />
-                  <div>
-                  Network: {network?.chainId} {network?.name}<br />
-                  Account: {account}<br />
-                  WalkerName: {walker}<br />
-                  StatusMessage: {appMsg}<br />
-                  Has NFTs: {nftCount}<br />
-                  </div>
-                </div>
-                <i>Test using Matic TestNet, 80001</i>
-                 
             </div>
-    )//end return
+            </header>
+            </div>
+            --------------------------------
+            <div className="text-white bg-custom-black py-1 px-2 text-xl">
+              <button onClick={handleConnect}>{web3 ? "Disconnect" : "Connect"}</button><br />
+              <button onClick={handleFetch}>Fetch My Player info</button><br />
+              <button onClick={handleSet}>Set New Name</button>
+              <input ref={inputElm} placeholder="reSet My Player Name" /><br />
+              <button onClick={handleFetchCount}>get My NFT count</button><br />
+              <hr />
+              <div>
+              Network: {network?.chainId} {network?.name}<br />
+              Account: {account}<br />
+              WalkerName: {walker}<br />
+              StatusMessage: {appMsg}<br />
+              Has NFTs: {nftCount}<br />
+              </div>
+            </div>
+            <i>Test using Matic TestNet, 80001</i>
+             
+        </div>
+      )//end return
+    }
+    
 }//end app func
 
 export default App
 
 // http://localhost:8080/pure-game-front/
+// https://mumbai.polygonscan.com/tx/0xe8dd990bcf5ab215c50c2eaef77956406b119373c2596eadb31aeb5272de9cdc

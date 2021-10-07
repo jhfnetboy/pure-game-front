@@ -1,0 +1,19 @@
+
+{
+    "cat": "quest",
+    "id": 1,
+    "event-seq": null,
+    "event-list": "2-3-5",
+    "reward": {
+        "exp": 300,
+        "arti": {
+            "cat": "arti",
+            "Id": 3
+        },
+        "material": {
+            "wood": 2,
+            "iron": 5,
+            "dragon-bone":2
+        }
+    }
+}

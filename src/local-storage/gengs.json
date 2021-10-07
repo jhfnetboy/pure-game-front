@@ -1,0 +1,30 @@
+[
+    {
+    "cat": "geng",
+    "id": "1",
+    "use": {
+        "1": "choices",
+        "2": "anwsers",
+        "3": "prefix",
+        "4": "end"
+    },
+    "words": "The sky is dark, some faint shadows behind the window are talking something with noise. It is a Pub."
+},
+{
+    "cat": "geng",
+    "id": "2",
+    "use": {
+        "1": "choices"
+    },
+    "words": "What do you want?, beer or just rose water?"
+},
+{
+    "cat": "geng",
+    "id": "3",
+    "use": {
+        "1": "anwsers"
+    },
+    "words": "The Evil is coming again, murmured by the man with gray cloth."
+}
+
+]
