@@ -9,6 +9,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import useWalker from './hooks/useWalker';
 import useNetwork from './hooks/useNetwork';
 const event = require('./local-storage/event.json')
+const battleEvent = require('./local-storage/battle-event.json')
 // import Routes from './routes'
 // import { Router } from 'react-router';
 

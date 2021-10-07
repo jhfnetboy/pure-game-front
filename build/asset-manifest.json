@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/pure-game-front/static/css/main.a617e044.chunk.css",
+    "main.js": "/pure-game-front/static/js/main.1a4c9b98.chunk.js",
+    "main.js.map": "/pure-game-front/static/js/main.1a4c9b98.chunk.js.map",
+    "runtime-main.js": "/pure-game-front/static/js/runtime-main.4c1cb36c.js",
+    "runtime-main.js.map": "/pure-game-front/static/js/runtime-main.4c1cb36c.js.map",
+    "static/js/2.bb89ae90.chunk.js": "/pure-game-front/static/js/2.bb89ae90.chunk.js",
+    "static/js/2.bb89ae90.chunk.js.map": "/pure-game-front/static/js/2.bb89ae90.chunk.js.map",
+    "static/js/3.9ac18aa8.chunk.js": "/pure-game-front/static/js/3.9ac18aa8.chunk.js",
+    "static/js/3.9ac18aa8.chunk.js.map": "/pure-game-front/static/js/3.9ac18aa8.chunk.js.map",
+    "index.html": "/pure-game-front/index.html",
+    "static/css/main.a617e044.chunk.css.map": "/pure-game-front/static/css/main.a617e044.chunk.css.map",
+    "static/js/2.bb89ae90.chunk.js.LICENSE.txt": "/pure-game-front/static/js/2.bb89ae90.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4c1cb36c.js",
+    "static/js/2.bb89ae90.chunk.js",
+    "static/css/main.a617e044.chunk.css",
+    "static/js/main.1a4c9b98.chunk.js"
+  ]
+}
