@@ -8,6 +8,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import useWalker from './hooks/useWalker';
 import useNetwork from './hooks/useNetwork';
 import { notification,Button } from 'antd';
+import classnames  from 'classnames';
 const event = require('./local-storage/event.json')
 const battleEvent = require('./local-storage/battle-event.json')
 // import Routes from './routes'
@@ -118,6 +119,7 @@ function App(){
       }
       const handleMint = () => {
         //先再次判断，是不是铸造walker了
+        console.log('dddd '+account)
         if(account){
           getNftCount(account).then(setNftCount).catch(showAppMsg)
           if(nftCount&&nftCount>0){
@@ -250,11 +252,7 @@ function App(){
 
     const handleBattle = () => {
       console.log("notify")
-      notification['info']({
-        message: "Title",
-        description:
-          "Content here",
-      });
+
     };    
     // end battle func 
 
@@ -316,7 +314,7 @@ function App(){
         <div className="flex flex-col h-screen items-start overflow-x-hidden bg-custom-background">
           <div>
             <header className="App-header">
-            <div id="scroll" onClick={() => {scroll()}}>  What the hell? </div>
+            <div id="scroll" className={classnames({"user-select": "none","-webkit-user-select": "none"})} onClick={() => {scroll()}}>  What the hell? </div>
             
 
             <div id="create" className="ml-20 " style={{display: 'none'}}>
