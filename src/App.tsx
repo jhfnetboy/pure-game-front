@@ -82,6 +82,9 @@ function App(){
 
       const handleMint = () => {
         console.log("mint here")
+        if(!network||!account){
+
+        }
         if(nftCount&&nftCount>0){
           console.log("Boy, you have got the ticket to the hell,GO!")
           const bigtext = document.getElementById("bigtext")
