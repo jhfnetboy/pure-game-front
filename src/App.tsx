@@ -18,8 +18,8 @@ function App(){
       // wallet connect
       const [network, setNetwork] = useState<providers.Network>()
       const [account, setAccount] = useState<string>()
-      const [notifyTitle, setTitle] = useState<string>()
-      const [descriptionContent, setDes] = useState<string>()
+      // const [notifyTitle, setTitle] = useState<string>()
+      // const [descriptionContent, setDes] = useState<string>()
       const [adv, setAdv] = useState<string>()
       const [nftCount, setNftCount] = useState<number>()
       const [walker, setWalker] = useState<string>()
@@ -49,8 +49,6 @@ function App(){
         setAccount(undefined)
         setWalker(undefined)
         setNftCount(undefined)
-        setTitle('Title')
-        setDes('Content')
       }
 
       const showAppMsg = (err: any) => {
@@ -63,6 +61,11 @@ function App(){
         handleNetwork().catch(showAppMsg)
       }
 
+      // todo todo
+      // const handleGetAccountWalker = async () => {
+      //   fetchWalkerName(walkerID).then(setWalker).catch(showAppMsg)
+      // }      
+      
       const handleFetch = async () => {
         fetchWalkerName(walkerID).then(setWalker).catch(showAppMsg)
       }
@@ -74,24 +77,24 @@ function App(){
       }      
 
     
-      const handleTestClick = () => {
-        console.log("test click")
-        const title = "Test"
-        const descriptionContent = "Wow~"
-        notification['info']({
-          message: title,
-          description:
-            descriptionContent,
-        });
-      };
+      // const handleTestClick = () => {
+      //   console.log("test click")
+      //   const title = "Test"
+      //   const descriptionContent = "Wow~"
+      //   notification['info']({
+      //     message: title,
+      //     description:
+      //       descriptionContent,
+      //   });
+      // };
 
 
       const handleNotify = () => {
         console.log("notify")
         notification['info']({
-          message: notifyTitle,
+          message: "Title",
           description:
-            descriptionContent,
+            "Content here",
         });
       };      
 
@@ -108,12 +111,25 @@ function App(){
       //end wallet func
 
       const handleMint = () => {
-        console.log("mint here")
+        //先再次判断，是不是铸造walker了
+        if(account){
+          getNftCount(account).then(setNftCount).catch(showAppMsg)
+          if(nftCount&&nftCount>0){
+            notification['info']({
+              message: "Do not neet to meant",
+              description:
+              "You have "+nftCount.toString()+" Walker to play",
+            });            
+          }
+        }        
+        console.log("mint a walker named :"+ inputElm.current.value+ ", mint to address:"+account)
         if(!network||!account){
-          setTitle("Network not ready!")
-          setDes("Connect the web3 first with bottom tool")
+          notification['info']({
+            message: "Network not ready!",
+            description:
+            "Connect the web3 first with bottom tool",
+          });
           console.log("Connect the web3 first")
-          handleNotify()
         }
         if(nftCount&&nftCount>0){
           console.log("Boy, you have got the ticket to the hell,GO!")
@@ -123,12 +139,7 @@ function App(){
           return null
         }
         if(account && inputElm.current.value){
-          console.log(inputElm.current.value)
-          notification['info']({
-            message: "You have no walker to play, mint one first!",
-            description:
-            "Please input your walker name in bottom input",
-          });
+          console.log("new walker name is:"+inputElm.current.value)
           mintWalker(account, inputElm.current.value)
           .then(() => {
             inputElm.current.value = ""
@@ -137,6 +148,11 @@ function App(){
           .catch(showAppMsg)
         }
         else{
+          notification['info']({
+            message: "You have no walker to play, mint one first!",
+            description:
+            "Please input your walker name in bottom input",
+          });
           console.log("mint to address or walkerName is empty!")
         }
       }
@@ -144,7 +160,7 @@ function App(){
     
     //begin scroll function
     let i = 0
-    const txtList = ["My dog has been robbed by Cerberus？", "Oh my poor doggy!  I must save him in this weekend!", "So you carring on your umbrella and dog leash, down to the cellar.", "A adventure is beginging..."]
+    const txtList = ["My dog has been robbed by the Cerberus？", "Oh my poor doggy!  I must save him in this weekend!", "So you bring on your umbrella and dog leash, down to the cellar.", "A small adventure is begining..."]
     function scroll(){
       const scroll1 = document.getElementById('scroll')
       if (i<4 && scroll1){
@@ -270,9 +286,9 @@ function App(){
       --------------------------------
             <div className="text-white bg-custom-black py-1 px-2 text-xl">
               <button onClick={handleConnect}>{web3 ? "Disconnect" : "Connect"}</button><br />
-              <button onClick={handleFetch}>Fetch My Player info</button><br />
+              <button onClick={handleFetch}>Fetch My Walker info</button><br />
               <button onClick={handleSet}>Set New Name</button>
-              <input ref={inputElm} placeholder="reSet My Player Name" /><br />
+              <input ref={inputElm} placeholder="reSet My Walker Name" /><br />
               <button onClick={handleFetchCount}>get My NFT count</button><br />
               <hr />
               <div>
@@ -296,7 +312,7 @@ function App(){
 
             <div id="create" className="ml-20 " style={{display: 'none'}}>
                 <div className="text-white bg-custom-black py-1 px-2 text-2xl" >
-                          <h3 id="bigtext">Create your player, rescue your dog!</h3><br/>  
+                          <h3 id="bigtext">Create your Walker, rescue your dog!</h3><br/>  
                           <FontAwesomeIcon
                                           icon={faDog}
                                           className="mt-80 ml-200 text-center cursor-pointer"
@@ -314,12 +330,11 @@ function App(){
             --------------------------------
             <div className="text-white bg-custom-black py-1 px-2 text-xl">
               <button onClick={handleConnect}>{web3 ? "Disconnect" : "Connect"}</button><br />
-              <button onClick={handleFetch}>Fetch My Player info</button><br />
+              <button onClick={handleFetch}>Fetch My Walker info</button><br />
               <button onClick={handleSet}>Set New Name</button>
-              <input ref={inputElm} placeholder="reSet My Player Name" /><br />
+              <input ref={inputElm} placeholder="reSet My Walker Name" /><br />
               <button onClick={handleFetchCount}>get My NFT count</button><br />
               <Button type="primary" onClick={handleNotify}>Test Button</Button>
-              {/* <Button type="primary" onClick={window.location.href='map.tsx'}>Test Button</Button> */}
               <hr />
               <div>
               Network: {network?.chainId} {network?.name}<br />
