@@ -124,6 +124,11 @@ function App(){
         }
         if(account && inputElm.current.value){
           console.log(inputElm.current.value)
+          notification['info']({
+            message: "You have no walker to play, mint one first!",
+            description:
+            "Please input your walker name in bottom input",
+          });
           mintWalker(account, inputElm.current.value)
           .then(() => {
             inputElm.current.value = ""
@@ -314,6 +319,7 @@ function App(){
               <input ref={inputElm} placeholder="reSet My Player Name" /><br />
               <button onClick={handleFetchCount}>get My NFT count</button><br />
               <Button type="primary" onClick={handleNotify}>Test Button</Button>
+              {/* <Button type="primary" onClick={window.location.href='map.tsx'}>Test Button</Button> */}
               <hr />
               <div>
               Network: {network?.chainId} {network?.name}<br />
