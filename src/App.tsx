@@ -9,8 +9,9 @@ import useWalker from './hooks/useWalker';
 import useNetwork from './hooks/useNetwork';
 import { notification,Button } from 'antd';
 import classnames  from 'classnames';
+import { exit } from 'process';
 const event = require('./local-storage/event.json')
-const battleEvent = require('./local-storage/battle-event.json')
+// const battleEvent = require('./local-storage/battle-event.json')
 // import Routes from './routes'
 // import { Router } from 'react-router';
 
@@ -39,9 +40,9 @@ function App(){
             web3.detectNetwork().then(setNetwork)
               .catch(showAppMsg)
             web3.listAccounts().then(accounts => {
-              console.log(accounts)
+              // console.log(accounts)
               setAccount(accounts[0])
-              console.log("initial "+account)
+              // console.log("initial "+account)
             }).catch(showAppMsg)
           }
           setNetworkAccount()
@@ -61,7 +62,6 @@ function App(){
         setTimeout(() => setAppMsg(undefined), 7000)
         notificationInfo("Error or failed", err.message || `${err}`)
       }
-
       const handleConnect = async () => {
         handleNetwork().catch(showAppMsg)
       }
@@ -165,6 +165,13 @@ function App(){
     let i = 0
     const txtList = ["My dog has been robbed by the Cerberus？", "Oh my poor doggy!  I must save him in this weekend!", "So you bring on your umbrella and dog leash, down to the cellar.", "A small adventure is begining..."]
     function scroll(){
+      if(nftCount===0){
+        handleMint()
+        if(nftCount>0){
+          setAdv("now")
+        }
+        return null
+      }
       //check network
       if(!account){
         notificationInfo("Network not connected", "Try to connecting ...")
@@ -177,18 +184,23 @@ function App(){
         }
         return null
       }
+      console.log(nftCount)
+
       //if network connected, check nftCount
-      if(account&&!nftCount){
+      if(account&&!nftCount&&nftCount!==0){
+        console.log(nftCount)
         notificationInfo("Network ok", "Trying to get your walker ...")
         try{
           console.log("app invoke userwalker getNftCount: "+ account )
-            getNftCount(account).then(setNftCount).catch(showAppMsg)
+          getNftCount(account).then(setNftCount).catch(showAppMsg)
           } catch (err) {
         console.log("Error: ", err)
         notificationInfo("Error fetching NFT", "See the console log")
         throw err
         }  
-        return null
+        if(nftCount===undefined||nftCount===0){
+          return null
+        }
       }    
 
       //if nftCount ok, jump to play
@@ -383,7 +395,6 @@ function App(){
               <input ref={inputElm} placeholder="reSet My Walker Name" /><br />
               <button onClick={handleFetchCount}>get My NFT count</button><br />
               <Button type="primary" onClick={handleNotify}>Test Button</Button>
-              <Button type="primary" onClick={handleBattle}>Test Button</Button>
 
               <hr />
               <div>
