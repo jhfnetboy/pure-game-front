@@ -6902,6 +6902,11 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
+easy-typer-js@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.nlark.com/easy-typer-js/download/easy-typer-js-2.1.0.tgz#10ba052dd8c9b9ffe580e6ab45b5da6c25aba2cc"
+  integrity sha1-ELoFLdjJuf/lgOarRbXabCWrosw=
+
 ecc-jsbn@~0.1.1:
   version "0.1.2"
   resolved "https://registry.npmjs.org/ecc-jsbn/-/ecc-jsbn-0.1.2.tgz"

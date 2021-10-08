@@ -23,6 +23,7 @@
     "antd": "^4.16.13",
     "authereum": "^0.1.14",
     "classnames": "^2.3.1",
+    "easy-typer-js": "^2.1.0",
     "ethereumjs-abi": "^0.6.8",
     "ethereumjs-util": "^7.1.2",
     "ethers": "^5.4.7",

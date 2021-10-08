@@ -9,9 +9,9 @@ import useWalker from './hooks/useWalker';
 import useNetwork from './hooks/useNetwork';
 import { notification,Button } from 'antd';
 import classnames  from 'classnames';
-import { exit } from 'process';
+import EasyTyper from 'easy-typer-js'
 const event = require('./local-storage/event.json')
-// const battleEvent = require('./local-storage/battle-event.json')
+const battleEvent = require('./local-storage/battle-event.json')
 // import Routes from './routes'
 // import { Router } from 'react-router';
 
@@ -246,7 +246,7 @@ function App(){
           if(txt3){
               txt3.innerText='' 
           }     
-          // console.log('clear Q1,2,3: '+count.toString()) 
+          console.log('clear Q1,2,3: '+count.toString()) 
       }              
 
   }
@@ -297,13 +297,30 @@ function App(){
       
   } 
     //end adventure func
-
+  function loadBattle(randomNum: number){
+    const choiceTxt1 = document.getElementById("choice1")
+    // const choiceTxt2 = document.getElementById("choice2")
+    // const choiceTxt3 = document.getElementById("choice3")  
+    
+    choiceTxt1 ? choiceTxt1.innerHTML = choiceTxt1.innerHTML + '<br/>'+battleEvent[randomNum].data[0].prefix : console.log('battle load')  
+    choiceTxt1 ? choiceTxt1.innerHTML = choiceTxt1.innerHTML + '<br/>'+battleEvent[randomNum].data[0].choices['f'] : console.log('battle load')  
+    choiceTxt1 ? choiceTxt1.innerHTML = choiceTxt1.innerHTML + '<br/>'+ battleEvent[randomNum].data[0].answers['f']  : console.log('battle load')  
+    // choiceTxt1 ? choiceTxt1.innerHTML = choiceTxt1.innerHTML + '<br/>'+ battleEvent[randomNum].data[0].choices['s']  : console.log('battle load')  
+    choiceTxt1 ? choiceTxt1.innerHTML = choiceTxt1.innerHTML + '<br/>'+ battleEvent[randomNum].data[0].answers['s']  : console.log('battle load')  
+    // choiceTxt1 ? choiceTxt1.innerHTML = choiceTxt1.innerHTML + '<br/>'+ battleEvent[randomNum].data[0].choices['t']  : console.log('battle load')  
+    choiceTxt1 ? choiceTxt1.innerHTML = choiceTxt1.innerHTML + '<br/>'+ battleEvent[randomNum].data[0].answers['t']  : console.log('battle load')  
+  }
 
 
     // begin battle function
 
     const handleBattle = () => {
-      console.log("notify")
+      console.log("battle begin")
+      clearQlist(1)
+      clearQlist(2)
+      clearQlist(3)
+      const randomNum = Math.floor((Math.random()*3))
+      loadBattle(randomNum)
 
     };    
     // end battle func 
@@ -349,7 +366,7 @@ function App(){
               <button onClick={handleSet}>Set New Name</button>
               <input ref={inputElm} placeholder="reSet My Walker Name" /><br />
               <button onClick={handleFetchCount}>get My NFT count</button><br />
-              <Button type="primary" onClick={handleBattle}>Test Button</Button>
+              <Button type="primary" onClick={handleBattle}>Battle now</Button>
               <hr />
               <div>
               Network: {network?.chainId} {network?.name}<br />
