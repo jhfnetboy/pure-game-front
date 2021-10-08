@@ -60,8 +60,15 @@ function useWalker({ web3 }: Props) {
 
     const signer = web3.getSigner()
     const contract = new ethers.Contract(address, Walker.abi, signer)
-    const transaction = await contract.mint(mint_address, walkerName)
-    await transaction.wait()
+    try{
+      const transaction = await contract.mint(mint_address, walkerName)
+      await transaction.wait()
+      console.log("Tx: ", transaction)
+      return 
+    }catch (err) {
+      console.log("Error: ", err)
+      throw err
+    }
   }
 
   const getNftCount = async (wallet_address: string) => {

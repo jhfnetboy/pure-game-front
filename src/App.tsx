@@ -56,6 +56,7 @@ function App(){
         console.log(err)
         setAppMsg(err.message || `${err}`)
         setTimeout(() => setAppMsg(undefined), 7000)
+        notificationInfo("Error or failed", err.message || `${err}`)
       }
 
       const handleConnect = async () => {
@@ -126,7 +127,7 @@ function App(){
             notificationInfo("Do not neet to meant","You have "+nftCount.toString()+" Walker to play")
           }
         }        
-        console.log("mint a walker named :"+ inputElm.current.value+ ", mint to address:"+account)
+        
         if(!network||!account){
           notificationInfo("Network not ready!","Connect the web3 first with bottom tool")
           console.log("Connect the web3 first")
@@ -140,6 +141,7 @@ function App(){
         }
         if(account && inputElm.current.value){
           console.log("new walker name is:"+inputElm.current.value)
+          // console.log("mint a walker named :"+ inputElm.current.value+ ", mint to address:"+account)
           mintWalker(account, inputElm.current.value)
           .then(() => {
             inputElm.current.value = ""
@@ -148,6 +150,7 @@ function App(){
           .catch(showAppMsg)
         }
         else{
+          console.log('dddd '+account)
           notificationInfo("You have no walker to play, mint one first!","Please input your walker name in bottom input")
           console.log("mint to address or walkerName is empty!")
         }
@@ -158,6 +161,38 @@ function App(){
     let i = 0
     const txtList = ["My dog has been robbed by the Cerberus？", "Oh my poor doggy!  I must save him in this weekend!", "So you bring on your umbrella and dog leash, down to the cellar.", "A small adventure is begining..."]
     function scroll(){
+      //check network
+      if(!account){
+        notificationInfo("Network not connected", "Try to connecting ...")
+          try{
+            handleConnect()
+          } catch (err) {
+        console.log("Error: ", err)
+        notificationInfo("Error connecting", "See the console log")
+        throw err
+        }
+        return null
+      }
+      //if network connected, check nftCount
+      if(account&&!nftCount){
+        notificationInfo("Network ok", "Trying to get your walker ...")
+        try{
+            getNftCount(account).then(setNftCount).catch(showAppMsg)
+          } catch (err) {
+        console.log("Error: ", err)
+        notificationInfo("Error fetching NFT", "See the console log")
+        throw err
+        }  
+        return null
+      }    
+
+      //if nftCount ok, jump to play
+      if(nftCount&&nftCount>0){
+        setAdv('now')
+        return null
+      }
+
+
       const scroll1 = document.getElementById('scroll')
       if (i<4 && scroll1){
         // console.log(i)
@@ -259,6 +294,7 @@ function App(){
 
     // return result
     if(adv){
+      console.log("adv is "+adv)
       return (
         <div className="flex flex-col h-screen items-start overflow-x-hidden bg-custom-background">
         <header className="App-header">
@@ -319,7 +355,7 @@ function App(){
 
             <div id="create" className="ml-20 " style={{display: 'none'}}>
                 <div className="text-white bg-custom-black py-1 px-2 text-2xl" >
-                          <h3 id="bigtext">Create your Walker, rescue your dog!</h3><br/>  
+                          <h3 className="text-white" id="bigtext">Create your Walker, rescue your dog!</h3>
                           <FontAwesomeIcon
                                           icon={faDog}
                                           className="mt-80 ml-200 text-center cursor-pointer"
