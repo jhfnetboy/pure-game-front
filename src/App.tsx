@@ -110,25 +110,23 @@ function App(){
       }
       //end wallet func
 
+      function notificationInfo(title: string, content: string){
+        notification['info']({
+          message: title,
+          description: content,
+        }); 
+      }
       const handleMint = () => {
         //先再次判断，是不是铸造walker了
         if(account){
           getNftCount(account).then(setNftCount).catch(showAppMsg)
           if(nftCount&&nftCount>0){
-            notification['info']({
-              message: "Do not neet to meant",
-              description:
-              "You have "+nftCount.toString()+" Walker to play",
-            });            
+            notificationInfo("Do not neet to meant","You have "+nftCount.toString()+" Walker to play")
           }
         }        
         console.log("mint a walker named :"+ inputElm.current.value+ ", mint to address:"+account)
         if(!network||!account){
-          notification['info']({
-            message: "Network not ready!",
-            description:
-            "Connect the web3 first with bottom tool",
-          });
+          notificationInfo("Network not ready!","Connect the web3 first with bottom tool")
           console.log("Connect the web3 first")
         }
         if(nftCount&&nftCount>0){
@@ -148,11 +146,7 @@ function App(){
           .catch(showAppMsg)
         }
         else{
-          notification['info']({
-            message: "You have no walker to play, mint one first!",
-            description:
-            "Please input your walker name in bottom input",
-          });
+          notificationInfo("You have no walker to play, mint one first!","Please input your walker name in bottom input")
           console.log("mint to address or walkerName is empty!")
         }
       }
@@ -251,6 +245,20 @@ function App(){
     //end adventure func
 
 
+
+    // begin battle function
+
+    const handleBattle = () => {
+      console.log("notify")
+      notification['info']({
+        message: "Title",
+        description:
+          "Content here",
+      });
+    };    
+    // end battle func 
+
+
     // return result
     if(adv){
       return (
@@ -290,6 +298,7 @@ function App(){
               <button onClick={handleSet}>Set New Name</button>
               <input ref={inputElm} placeholder="reSet My Walker Name" /><br />
               <button onClick={handleFetchCount}>get My NFT count</button><br />
+              <Button type="primary" onClick={handleBattle}>Test Button</Button>
               <hr />
               <div>
               Network: {network?.chainId} {network?.name}<br />
@@ -335,6 +344,8 @@ function App(){
               <input ref={inputElm} placeholder="reSet My Walker Name" /><br />
               <button onClick={handleFetchCount}>get My NFT count</button><br />
               <Button type="primary" onClick={handleNotify}>Test Button</Button>
+              <Button type="primary" onClick={handleBattle}>Test Button</Button>
+
               <hr />
               <div>
               Network: {network?.chainId} {network?.name}<br />
