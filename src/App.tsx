@@ -1,13 +1,13 @@
+import 'antd/dist/antd.css';
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDog } from '@fortawesome/free-solid-svg-icons'
 import { faRandom } from '@fortawesome/free-solid-svg-icons'
 import { providers } from 'ethers';
-// import { Provider } from '@ethersproject/providers'
 import React, { useEffect, useRef, useState } from 'react';
-// import useGreeter from './hooks/useGreeter';
 import useWalker from './hooks/useWalker';
 import useNetwork from './hooks/useNetwork';
+import { notification,Button } from 'antd';
 const event = require('./local-storage/event.json')
 const battleEvent = require('./local-storage/battle-event.json')
 // import Routes from './routes'
@@ -18,6 +18,8 @@ function App(){
       // wallet connect
       const [network, setNetwork] = useState<providers.Network>()
       const [account, setAccount] = useState<string>()
+      const [notifyTitle, setTitle] = useState<string>()
+      const [descriptionContent, setDes] = useState<string>()
       const [adv, setAdv] = useState<string>()
       const [nftCount, setNftCount] = useState<number>()
       const [walker, setWalker] = useState<string>()
@@ -47,6 +49,8 @@ function App(){
         setAccount(undefined)
         setWalker(undefined)
         setNftCount(undefined)
+        setTitle('Title')
+        setDes('Content')
       }
 
       const showAppMsg = (err: any) => {
@@ -69,6 +73,29 @@ function App(){
         }
       }      
 
+    
+      const handleTestClick = () => {
+        console.log("test click")
+        const title = "Test"
+        const descriptionContent = "Wow~"
+        notification['info']({
+          message: title,
+          description:
+            descriptionContent,
+        });
+      };
+
+
+      const handleNotify = () => {
+        console.log("notify")
+        notification['info']({
+          message: notifyTitle,
+          description:
+            descriptionContent,
+        });
+      };      
+
+
       const handleSet = () => {
         console.log("set here")
         setWalkerName(walkerID, inputElm.current.value)
@@ -83,7 +110,10 @@ function App(){
       const handleMint = () => {
         console.log("mint here")
         if(!network||!account){
-
+          setTitle("Network not ready!")
+          setDes("Connect the web3 first with bottom tool")
+          console.log("Connect the web3 first")
+          handleNotify()
         }
         if(nftCount&&nftCount>0){
           console.log("Boy, you have got the ticket to the hell,GO!")
@@ -257,6 +287,7 @@ function App(){
           <div>
             <header className="App-header">
             <div id="scroll" onClick={() => {scroll()}}>  What the hell? </div>
+            
 
             <div id="create" className="ml-20 " style={{display: 'none'}}>
                 <div className="text-white bg-custom-black py-1 px-2 text-2xl" >
@@ -282,6 +313,7 @@ function App(){
               <button onClick={handleSet}>Set New Name</button>
               <input ref={inputElm} placeholder="reSet My Player Name" /><br />
               <button onClick={handleFetchCount}>get My NFT count</button><br />
+              <Button type="primary" onClick={handleNotify}>Test Button</Button>
               <hr />
               <div>
               Network: {network?.chainId} {network?.name}<br />
