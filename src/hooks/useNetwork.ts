@@ -25,9 +25,10 @@ function useNetwork() {
   const connect = async () => {
     const provider_ = await web3Modal.connect()
     setProvider(provider_)
-
+    console.log(provider_)
     const web3_ = new providers.Web3Provider(provider_)
     setWeb3(web3_)
+    console.log(web3_)
   }
 
   const disconnect = async () => {

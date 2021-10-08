@@ -77,6 +77,7 @@ function useWalker({ web3 }: Props) {
 
     const signer = web3.getSigner()
     const contract = new ethers.Contract(address, Walker.abi, signer)
+    console.log("userwork invoke: "+wallet_address)
     const count = await contract.balanceOf(wallet_address)
     console.log(count)
     // await count.wait()

@@ -33,12 +33,15 @@ function App(){
       useEffect(() => {
         if (typeof web3 === "undefined") {
           initFields()
+          console.log("clear 4 state")
         } else {
           const setNetworkAccount = async () => {
             web3.detectNetwork().then(setNetwork)
               .catch(showAppMsg)
             web3.listAccounts().then(accounts => {
+              console.log(accounts)
               setAccount(accounts[0])
+              console.log("initial "+account)
             }).catch(showAppMsg)
           }
           setNetworkAccount()
@@ -74,6 +77,7 @@ function App(){
 
       const handleFetchCount = async () => {
         if(account){
+          console.log("Fetch nfts for address :getNftCount"+account)
           getNftCount(account).then(setNftCount).catch(showAppMsg)
         }
       }      
@@ -120,7 +124,7 @@ function App(){
       }
       const handleMint = () => {
         //先再次判断，是不是铸造walker了
-        console.log('dddd '+account)
+        console.log('handleMint invoke: '+account)
         if(account){
           getNftCount(account).then(setNftCount).catch(showAppMsg)
           if(nftCount&&nftCount>0){
@@ -150,7 +154,7 @@ function App(){
           .catch(showAppMsg)
         }
         else{
-          console.log('dddd '+account)
+          console.log('handleMint else: '+account)
           notificationInfo("You have no walker to play, mint one first!","Please input your walker name in bottom input")
           console.log("mint to address or walkerName is empty!")
         }
@@ -177,6 +181,7 @@ function App(){
       if(account&&!nftCount){
         notificationInfo("Network ok", "Trying to get your walker ...")
         try{
+          console.log("app invoke userwalker getNftCount: "+ account )
             getNftCount(account).then(setNftCount).catch(showAppMsg)
           } catch (err) {
         console.log("Error: ", err)
