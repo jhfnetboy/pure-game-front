@@ -9,7 +9,7 @@ import useWalker from './hooks/useWalker';
 import useNetwork from './hooks/useNetwork';
 import { notification,Button } from 'antd';
 import classnames  from 'classnames';
-import EasyTyper from 'easy-typer-js'
+// import EasyTyper from 'easy-typer-js'
 const event = require('./local-storage/event.json')
 const battleEvent = require('./local-storage/battle-event.json')
 // import Routes from './routes'
@@ -94,15 +94,14 @@ function App(){
       //   });
       // };
 
-
-      const handleNotify = () => {
-        console.log("notify")
-        notification['info']({
-          message: "Title",
-          description:
-            "Content here",
-        });
-      };      
+      // const handleNotify = () => {
+      //   console.log("notify")
+      //   notification['info']({
+      //     message: "Title",
+      //     description:
+      //       "Content here",
+      //   });
+      // };      
 
 
       const handleSet = () => {
@@ -174,7 +173,7 @@ function App(){
       }
       //check network
       if(!account){
-        notificationInfo("Network not connected", "Try to connecting ...")
+        notificationInfo("Network not connected", "Try to connecting ...Open your metamask, select one acount with little Matic tokens")
           try{
             handleConnect()
           } catch (err) {
@@ -377,6 +376,7 @@ function App(){
               WalkerName: {walker}<br />
               StatusMessage: {appMsg}<br />
               Has NFTs: {nftCount}<br />
+              <a href="typer.js" target="_blank">typer</a>
               </div>
             </div>
             <i>Test using Matic TestNet, 80001</i>      
@@ -414,7 +414,8 @@ function App(){
               <button onClick={handleSet}>Set New Name</button>
               <input ref={inputElm} placeholder="reSet My Walker Name" /><br />
               <button onClick={handleFetchCount}>get My NFT count</button><br />
-              <Button type="primary" onClick={handleNotify}>Test Button</Button>
+              <Button type="primary" onClick={handleBattle}>Battle now</Button>
+              {/* <Button type="primary" onClick={}>Battle now</Button> */}
 
               <hr />
               <div>
@@ -423,6 +424,7 @@ function App(){
               WalkerName: {walker}<br />
               StatusMessage: {appMsg}<br />
               Has NFTs: {nftCount}<br />
+              <a href="typer.js" target="_blank">typer</a>
               </div>
             </div>
             <i>Test using Matic TestNet, 80001</i>

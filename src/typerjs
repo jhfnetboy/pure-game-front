@@ -1,0 +1,74 @@
+import React from 'react'
+import logo from './logo.svg'
+import './App.css'
+import EasyTyper from 'easy-typer-js'
+
+class showText extends React.Component {
+  constructor(props: any) {
+    super(props)
+    this.state = {
+      output: '',
+      typer: null
+    }
+    this.initTyper = this.initTyper.bind(this)
+    this.changeOutput = this.changeOutput.bind(this)
+  }
+
+  componentDidMount() {
+    this.initTyper()
+  }
+
+  componentWillUnmount() {
+    this.typer.close()
+  }
+
+  initTyper() {
+    // 配置对象
+    const obj = {
+      output: '',
+      isEnd: false,
+      speed: 80,
+      singleBack: false,
+      sleep: 0,
+      type: 'normal',
+      backSpeed: 40,
+      sentencePause: false
+    }
+    // 实例化
+    this.typer = new EasyTyper(obj, '我是被React所创造出来的！', this.completeAsentence, this.changeOutput)
+  }
+
+  // 输出完毕后的回调函数
+  completeAsentence() {
+    console.log('输出完毕！长官！')
+  }
+
+  // 钩子函数和setState结合
+  changeOutput(output) {
+    this.setState(state => ({
+      output: output
+    }))
+  }
+
+  render() {
+    return (
+       <div className="App">
+       <header className="App-header">
+         <img src={logo} className="App-logo" alt="logo" />
+         <p>{this.state.output}</p>
+         <a
+           className="App-link"
+           href="https://reactjs.org"
+           target="_blank"
+           rel="noopener noreferrer"
+         >
+           上帝
+         </a>
+       </header>
+     </div>
+    )
+  }
+}
+
+export default showText
+
