@@ -10,6 +10,8 @@ import useNetwork from './hooks/useNetwork';
 import { notification,Button } from 'antd';
 import classnames  from 'classnames';
 // import EasyTyper from 'easy-typer-js'
+import TypeWriterEffect from 'react-typewriter-effect';
+
 const event = require('./local-storage/event.json')
 const battleEvent = require('./local-storage/battle-event.json')
 // import Routes from './routes'
@@ -328,6 +330,8 @@ function App(){
     // end battle func 
 
 
+
+    const myAppRef = document.querySelector('#scrollable-div')
     // return result
     if(adv){
       console.log("adv is "+adv)
@@ -358,6 +362,15 @@ function App(){
             onClick={() => {selectChoice(3)}}
             >3.{event.data[0].choices['t']}</div>
         </div>
+        <div id="scrollable-div"></div>
+        <TypeWriterEffect
+            textStyle={{ fontFamily: 'Red Hat Display' }}
+            startDelay={100}
+            cursorColor="black"
+            text="The talk and battle text will be shown here"
+            typeSpeed={100}
+            scrollArea={myAppRef}
+          />
         <br/>
       </div>
       </header>
