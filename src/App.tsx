@@ -19,6 +19,21 @@ const battleEvent = require('./local-storage/battle-event.json')
 
 // function App(): JSX.Element {
 function App(){  
+  const [lastPressedKey, setLastPressedKey] = useState<string>()
+  const componentDidMount= ()=> {
+    window.addEventListener("keydown", handleKeyPress);
+  }
+  const componentWillUnmount=()=> {
+    window.removeEventListener("keydown", handleKeyPress);
+  }
+  const handleKeyPress = (event:KeyboardEvent) => {
+    setLastPressedKey(event.key);
+    console.log("Press key",event.key)
+    console.log("Press keyCode",event.code)
+    console.log("Press keyCode",event.keyCode)
+  };
+  componentDidMount()
+
       // wallet connect
       const [network, setNetwork] = useState<providers.Network>()
       const [account, setAccount] = useState<string>()
@@ -83,28 +98,7 @@ function App(){
           getNftCount(account).then(setNftCount).catch(showAppMsg)
         }
       }      
-
     
-      // const handleTestClick = () => {
-      //   console.log("test click")
-      //   const title = "Test"
-      //   const descriptionContent = "Wow~"
-      //   notification['info']({
-      //     message: title,
-      //     description:
-      //       descriptionContent,
-      //   });
-      // };
-
-      // const handleNotify = () => {
-      //   console.log("notify")
-      //   notification['info']({
-      //     message: "Title",
-      //     description:
-      //       "Content here",
-      //   });
-      // };      
-
 
       const handleSet = () => {
         console.log("set here")
@@ -395,7 +389,8 @@ function App(){
               <a href="typer.js" target="_blank">typer</a>
               </div>
             </div>
-            <i>Test using Matic TestNet, 80001</i>      
+            <i>Test using Matic TestNet, 80001</i>  
+            <div>Key last pressed: {lastPressedKey}</div>  
     </div>
       )
     } else{
@@ -444,6 +439,7 @@ function App(){
               </div>
             </div>
             <i>Test using Matic TestNet, 80001</i>
+            <div>Key last pressed: {lastPressedKey}</div>
              
         </div>
       )//end return
