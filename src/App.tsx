@@ -29,7 +29,7 @@ function App(){
   const handleKeyPress = (event:KeyboardEvent) => {
     setLastPressedKey(event.key);
     console.log("Press key",event.key)
-    console.log("Press keyCode",event.code)
+    console.log("Press keyTrue",event.code)
     console.log("Press keyCode",event.keyCode)
   };
   componentDidMount()
