@@ -163,11 +163,30 @@ function App(){
     // mintwalker
     
     //begin scroll function
+    console.log('here click')
     let i = 0
     const txtList = ["My dog has been robbed by the Cerberus？", "Oh my poor doggy!  I must save him in this weekend!", "So you bring on your umbrella and dog leash, down to the cellar.", "A small adventure is begining..."]
     function scroll(){
       if(nftCount===0){
-        handleMint()
+
+        const scroll1 = document.getElementById('scroll')
+        if (i<4 && scroll1){
+          // console.log(i)
+            scroll1.innerText = txtList[i] ? txtList[i] : ''
+          i = i +1
+        } else{
+          console.log('start')
+          if(scroll1){
+            scroll1.innerText =""
+          }
+          const play = document.getElementById('create')
+          if (play){
+            play.style.display = 'inline';
+          }
+          
+        }
+
+        // handleMint()
         if(nftCount>0){
           setAdv("now")
         }
@@ -190,7 +209,7 @@ function App(){
       //if network connected, check nftCount
       if(account&&!nftCount&&nftCount!==0){
         console.log(nftCount)
-        notificationInfo("Network ok", "Trying to get your walker ...")
+        notificationInfo("Network ok", "Try to get your walker ...")
         try{
           console.log("app invoke userwalker getNftCount: "+ account )
           getNftCount(account).then(setNftCount).catch(showAppMsg)
@@ -204,28 +223,12 @@ function App(){
         }
       }    
 
+
+
       //if nftCount ok, jump to play
       if(nftCount&&nftCount>0){
         setAdv('now')
         return null
-      }
-
-
-      const scroll1 = document.getElementById('scroll')
-      if (i<4 && scroll1){
-        // console.log(i)
-          scroll1.innerText = txtList[i] ? txtList[i] : ''
-        i = i +1
-      } else{
-        console.log('start')
-        if(scroll1){
-          scroll1.innerText =""
-        }
-        const play = document.getElementById('create')
-        if (play){
-          play.style.display = 'inline';
-        }
-        
       }
 
     }
@@ -405,7 +408,7 @@ function App(){
 
             <div id="create" className="ml-20 " style={{display: 'none'}}>
                 <div className="text-white bg-custom-black py-1 px-2 text-2xl" >
-                          <h3 className="text-white" id="bigtext">Create your Walker, rescue your dog!</h3>
+                          <h3 className="text-red" id="bigtext">Create your Walker, rescue your dog!</h3>
                           <FontAwesomeIcon
                                           icon={faDog}
                                           className="mt-80 ml-200 text-center cursor-pointer"
