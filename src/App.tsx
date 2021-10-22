@@ -1,8 +1,9 @@
-import 'antd/dist/antd.css';
-import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDog } from '@fortawesome/free-solid-svg-icons'
 import { faRandom } from '@fortawesome/free-solid-svg-icons'
+import 'antd/dist/antd.css';
+import './App.css';
+
 import { providers } from 'ethers';
 import React, { useEffect, useRef, useState } from 'react';
 import useWalker from './hooks/useWalker';
@@ -33,7 +34,6 @@ function App(){
     console.log("Press keyCode",event.keyCode)
   };
   componentDidMount()
-
       // wallet connect
       const [network, setNetwork] = useState<providers.Network>()
       const [account, setAccount] = useState<string>()
