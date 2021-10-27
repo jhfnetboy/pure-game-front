@@ -8,10 +8,12 @@ import { providers } from 'ethers';
 import React, { useEffect, useRef, useState } from 'react';
 import useWalker from './hooks/useWalker';
 import useNetwork from './hooks/useNetwork';
-import { notification,Button } from 'antd';
+import { Modal, notification,Button } from 'antd';
 import classnames  from 'classnames';
 // import EasyTyper from 'easy-typer-js'
 import TypeWriterEffect from 'react-typewriter-effect';
+
+// import ModalMintD from './pages/modalMintWalker';
 
 const event = require('./local-storage/event.json')
 const battleEvent = require('./local-storage/battle-event.json')
@@ -19,7 +21,8 @@ const battleEvent = require('./local-storage/battle-event.json')
 // import { Router } from 'react-router';
 
 // function App(): JSX.Element {
-function App(){  
+function App(){            
+// const ModalMint = ModalMintD()
   const [lastPressedKey, setLastPressedKey] = useState<string>()
   const componentDidMount= ()=> {
     window.addEventListener("keydown", handleKeyPress);
@@ -117,6 +120,32 @@ function App(){
           description: content,
         }); 
       }
+
+      //modal control
+      const [visible, setVisible] = React.useState(false);
+      const [confirmLoading, setConfirmLoading] = React.useState(false);
+      const [modalText, setModalText] = React.useState('Content of the modal');
+    
+      const showModal = () => {
+        setVisible(true);
+      };
+    
+      const handleOk = () => {
+        setModalText('The modal will be closed after two seconds');
+        setConfirmLoading(true);
+        setTimeout(() => {
+          setVisible(false);
+          setConfirmLoading(false);
+        }, 2000);
+      };
+    
+      const handleCancel = () => {
+        console.log('Clicked cancel button');
+        setVisible(false);
+      };
+    //  end modal control
+
+
       const handleMint = () => {
         //先再次判断，是不是铸造walker了
         console.log('handleMint invoke: '+account)
@@ -151,6 +180,7 @@ function App(){
         else{
           console.log('handleMint else: '+account)
           notificationInfo("You have no walker to play, mint one first!","Please input your walker name in bottom input")
+          showModal()
           console.log("mint to address or walkerName is empty!")
         }
       }
@@ -304,12 +334,17 @@ function App(){
     // const choiceTxt3 = document.getElementById("choice3")  
     
     choiceTxt1 ? choiceTxt1.innerHTML = choiceTxt1.innerHTML + '<br/>'+battleEvent[randomNum].data[0].prefix : console.log('battle load')  
+    
     choiceTxt1 ? choiceTxt1.innerHTML = choiceTxt1.innerHTML + '<br/>'+battleEvent[randomNum].data[0].choices['f'] : console.log('battle load')  
     choiceTxt1 ? choiceTxt1.innerHTML = choiceTxt1.innerHTML + '<br/>'+ battleEvent[randomNum].data[0].answers['f']  : console.log('battle load')  
+    if(battleEvent[randomNum].data[0].answers['get']){
+      console.log("You have got ",battleEvent[randomNum].data[0].answers['get'])
+    }
     // choiceTxt1 ? choiceTxt1.innerHTML = choiceTxt1.innerHTML + '<br/>'+ battleEvent[randomNum].data[0].choices['s']  : console.log('battle load')  
     choiceTxt1 ? choiceTxt1.innerHTML = choiceTxt1.innerHTML + '<br/>'+ battleEvent[randomNum].data[0].answers['s']  : console.log('battle load')  
     // choiceTxt1 ? choiceTxt1.innerHTML = choiceTxt1.innerHTML + '<br/>'+ battleEvent[randomNum].data[0].choices['t']  : console.log('battle load')  
     choiceTxt1 ? choiceTxt1.innerHTML = choiceTxt1.innerHTML + '<br/>'+ battleEvent[randomNum].data[0].answers['t']  : console.log('battle load')  
+    
   }
 
 
@@ -348,6 +383,15 @@ function App(){
                     onClick={() => {clickNext()}}
                 /> 
         <hr/>
+          <Modal
+          title="Title"
+          visible={visible}
+          onOk={handleOk}
+          confirmLoading={confirmLoading}
+          onCancel={handleCancel}
+          >
+          <p>{modalText}</p>
+          </Modal>
         <div >
             <div className="text-blue mt-1 ml-0" id="choice1"
             onClick={() => {selectChoice(1)}}
@@ -403,10 +447,11 @@ function App(){
 
             <div id="create" className="ml-20 " style={{display: 'none'}}>
                 <div className="text-white bg-custom-black py-1 px-2 text-2xl" >
-                          <h3 className="text-red" id="bigtext">Create your Walker, rescue your dog!</h3>
+                          <h3 className="text-white" id="bigtext">Create your Walker, rescue your dog!</h3>
                           <FontAwesomeIcon
                                           icon={faDog}
-                                          className="mt-80 ml-200 text-center cursor-pointer"
+                                          // className="mt-80 ml-200 text-center cursor-pointer"
+                                          className="mt-80 ml-200 text-center cursor-hand"
                                           color="white"
                                           size="4x"
                                           onClick={() => {handleMint()}}
